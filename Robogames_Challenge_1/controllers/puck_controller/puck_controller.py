@@ -39,8 +39,10 @@ while robot.step(timestep) != -1:
         rupees = receiver_data['rupees']
         dollars = receiver_data['dollars']
         goal = receiver_data['goal']
+        robot = receiver_data['robot']
+        robotAngleDegrees = receiver_data['robotAngleDegrees']
         
-        print(time, collectibles, rupees, dollars, goal) # debug data extraction
+        print(time, collectibles, rupees, dollars, goal, robot, robotAngleDegrees) # debug data extraction
         
         # get values from PS
         left_ps_value = left_proximity_sensor.getValue()
@@ -64,4 +66,3 @@ while robot.step(timestep) != -1:
         
         receiver.nextPacket()
     pass
-    

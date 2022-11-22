@@ -1,6 +1,7 @@
 from controller import Robot, Supervisor, Emitter
 import random, json
-from math import sqrt
+import math
+from math import sqrt, acos, asin
 
 EXCHANGE_RATE = 360
 
@@ -77,6 +78,12 @@ def detectCollisions():
         
 def sendData():
     global collectibles
+    robotPosition = robot.getPosition()
+    rotationMatrix = robot.getOrientation()
+    angle, sign = acos(rotationMatrix[0]) / math.pi * 180, asin(rotationMatrix[3]) / math.pi * 180
+    if sign < 0.0:
+        angle *= -1
+        angle += 360
 
     data = {}
     data["time"] = currentTime
@@ -84,6 +91,8 @@ def sendData():
     data["rupees"] = rupees
     data["dollars"] = dollars
     data["goal"] = (goalPosition[0], goalPosition[1])
+    data["robot"] = (robotPosition[0], robotPosition[1])
+    data["robotAngleDegrees"] = angle
     
     for collectible in collectibles:
         collectiblePosition = collectible.getPosition()
