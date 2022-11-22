@@ -28,21 +28,20 @@ right_proximity_sensor.enable(timestep)
 camera = robot.getDevice('camera')
 camera.enable(timestep)
 
-
 while robot.step(timestep) != -1:
-
     while receiver.getQueueLength() > 0:
-        # Assign receiver values
+        #print(json.loads(receiver.getData().decode('utf-8')))
+        
         receiver_data = json.loads(receiver.getData().decode('utf-8'))
         time = receiver_data['time']
-        collectibles = receiver_data['collectibles']
+        collectibles_position = receiver_data['collectibles']
         rupees = receiver_data['rupees']
         dollars = receiver_data['dollars']
         goal = receiver_data['goal']
-        robot = receiver_data['robot']
-        robotAngleDegrees = receiver_data['robotAngleDegrees']
+        robot_position = receiver_data['robot']
+        robot_angle = receiver_data['robotAngleDegrees']
         
-        print(time, collectibles, rupees, dollars, goal, robot, robotAngleDegrees) # debug data extraction
+        print(time, collectibles_position, rupees, dollars, goal, robot_position, robot_angle) # debug data extraction
         
         # get values from PS
         left_ps_value = left_proximity_sensor.getValue()
@@ -60,8 +59,6 @@ while robot.step(timestep) != -1:
         else:
             left_motor.setVelocity(3.0)
             right_motor.setVelocity(3.0)
-            
-        
         
         
         receiver.nextPacket()
